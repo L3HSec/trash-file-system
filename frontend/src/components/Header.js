@@ -1,6 +1,6 @@
-import React  from 'react';
+import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -16,10 +16,10 @@ export default function HeaderBar() {
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
           L3H Cloud
-          </Typography>
+        </Typography>
         <Button color="inherit">
           上传文件
-            </Button>
+        </Button>
       </Toolbar>
     </AppBar>
   );

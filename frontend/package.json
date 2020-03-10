@@ -34,5 +34,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost/"
+  "proxy": "http://localhost/",
+  "devDependencies": {
+    "react-time-format": "0.0.5"
+  }
 }

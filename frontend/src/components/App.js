@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import FileTable from './FileTable';
 import HeaderBar from './Header';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
