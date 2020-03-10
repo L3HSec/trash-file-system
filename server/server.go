@@ -9,6 +9,7 @@ import (
 
 var router *mux.Router
 
+//RegisterAPI register api urls
 func RegisterAPI(method string, path string, handle http.HandlerFunc) {
 	router.Handle(path, handle).Methods(method)
 	fmt.Printf("API %s method %s registered\n", path, method)

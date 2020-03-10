@@ -48,11 +48,11 @@ func (p *diskStorageManager) SaveFile(fileName string, comment string, reader io
 	return &file, nil
 }
 
-func (p *diskStorageManager) GetFile(id common.FileID) (io.ReadCloser, error) {
+func (p *diskStorageManager) GetFile(id common.FileID) (*common.File, io.ReadCloser, error) {
 	file, err := p.dbMan.QueryFile(id)
 
 	if err != nil {
-		return nil, common.NewError("no such file id in db").Base(err)
+		return nil, nil, common.NewError("no such file id in db").Base(err)
 	}
 
 	storedName := fmt.Sprintf("%X", file.ID)
@@ -60,10 +60,10 @@ func (p *diskStorageManager) GetFile(id common.FileID) (io.ReadCloser, error) {
 	reader, err := p.fileMan.GetFile(storedName)
 
 	if err != nil {
-		return nil, common.NewError("failed to open file").Base(err)
+		return nil, nil, common.NewError("failed to open file").Base(err)
 	}
 
-	return reader, nil
+	return file, reader, nil
 }
 
 func (p *diskStorageManager) ListFiles() ([]common.File, error) {

@@ -16,7 +16,7 @@ func TestStorage(t *testing.T) {
 		t.Fatal("fuck")
 	}
 
-	reader, err := manager.GetFile(file.ID)
+	_, reader, err := manager.GetFile(file.ID)
 	if err != nil {
 		t.Fatal("fuck")
 	}

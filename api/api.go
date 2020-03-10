@@ -55,12 +55,15 @@ func (p *apiManager) handleDownload(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	fileReader, err := p.storageMan.GetFile(fileID)
+	file, fileReader, err := p.storageMan.GetFile(fileID)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	defer fileReader.Close()
+	w.Header().Set("Content-Disposition", "attachment; filename="+file.FileName)
+	w.Header().Set("Content-Type", r.Header.Get("Content-Type"))
+	w.Header().Set("Content-Length", fmt.Sprintf("%d", file.FileSize))
 	w.WriteHeader(200)
 	io.Copy(w, fileReader)
 }
@@ -97,6 +100,7 @@ func (p *apiManager) handleList(w http.ResponseWriter, r *http.Request) {
 	w.Write(respBody)
 }
 
+//Run initializes apis
 func Run(storageMan common.StorageManager) {
 	man := apiManager{
 		storageMan: storageMan,

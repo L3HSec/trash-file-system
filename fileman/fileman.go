@@ -32,6 +32,7 @@ func (p *fileManager) DeleteFile(fileName string) error {
 	return os.Remove(fileName)
 }
 
+//NewManager creates new file manager
 func NewManager(path string) common.FileManager {
 	return &fileManager{
 		path: path,
