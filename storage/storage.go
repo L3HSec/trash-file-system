@@ -70,9 +70,31 @@ func (p *diskStorageManager) ListFiles() ([]common.File, error) {
 	return p.dbMan.ListFiles()
 }
 
+func (p *diskStorageManager) AutoClean() {
+	for {
+		files, err := p.dbMan.ListFiles()
+		if err != nil {
+			panic("cannot list")
+		}
+		for _, f := range files {
+			if time.Now().After(f.Expire) {
+				err := p.dbMan.DeleteFile(f.ID)
+				common.Must(err)
+				err = p.fileMan.DeleteFile(fmt.Sprintf("%X", f.ID))
+				common.Must(err)
+				fmt.Println("Expired file deleted: " + f.FileName)
+			}
+		}
+		time.Sleep(time.Minute * 1)
+	}
+}
+
+//NewStorageManager creates storage manager
 func NewStorageManager(dbPath string, uploadDir string) common.StorageManager {
-	return &diskStorageManager{
+	man := &diskStorageManager{
 		dbMan:   dbman.NewManager(dbPath),
 		fileMan: fileman.NewManager(uploadDir),
 	}
+	go man.AutoClean()
+	return man
 }

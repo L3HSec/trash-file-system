@@ -22,3 +22,10 @@ func NewError(info string) *Error {
 		info: info,
 	}
 }
+
+//Must the err must be nil or panic
+func Must(err error) {
+	if err != nil {
+		panic(err)
+	}
+}

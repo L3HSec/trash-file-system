@@ -29,7 +29,7 @@ func (p *fileManager) GetFile(fileName string) (io.ReadCloser, error) {
 }
 
 func (p *fileManager) DeleteFile(fileName string) error {
-	return os.Remove(fileName)
+	return os.Remove(p.path + fileName)
 }
 
 //NewManager creates new file manager
