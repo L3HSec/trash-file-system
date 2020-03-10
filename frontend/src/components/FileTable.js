@@ -1,32 +1,36 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {Button, Container, Paper, Box} from '@material-ui/core';
-import {Table, TableHead, TableRow, TableCell,TableBody,  TableContainer } from '@material-ui/core';
-import {ArrowDownwardOutlined} from '@material-ui/icons'
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import {dateFormat, getfilesize} from './DataFormat';
 
-class FileItem extends Component {
-  static propTypes = {
-    fileInfo: PropTypes.object,
-    clickHandler: PropTypes.func
-  };
+import {Container, Paper, Box } from '@material-ui/core';
+import {Table, TableHead, TableRow, TableCell,TableBody,  TableContainer } from '@material-ui/core';
 
-  render() {
-    return (
-      // <tr key={this.props.fileInfo.itemId} className="fileItem">
-      //   <td>{this.props.fileInfo.fileName}</td>
-      //   <td>{this.props.fileInfo.fileSize}</td>
-      //   <td>{this.props.fileInfo.fileRemainingTime}</td>
-      //   <td><Button >下载</Button></td>
-      // </tr>
-      <TableRow key={this.props.fileInfo.itemId}>
-        <TableCell>{this.props.fileInfo.fileName}</TableCell>
-        <TableCell>{this.props.fileInfo.fileSize}</TableCell>
-        <TableCell>{this.props.fileInfo.fileRemainingTime}</TableCell>
-      </TableRow>
+import DownloadDialog from './FileDownloadDialog';
 
-    );
-  };
+function FileItem (props){
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickFile = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+    console.log("aaaa");
+  }
+
+  var date = dateFormat("YYYY-mm-dd HH:MM",new Date(props.fileInfo.fileRemainingTime));
+  var fileSize = getfilesize(props.fileInfo.fileSize);
+  
+  return (
+    <TableRow key={props.fileInfo.itemId} onClick={()=>{handleClickFile()}}>
+      <TableCell>{props.fileInfo.fileName}</TableCell>
+      <TableCell>{fileSize}</TableCell>
+      <TableCell>{date}</TableCell>
+      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.fileInfo} />
+    </TableRow>
+  );
 }
 
 export default class FileTable extends Component {
@@ -54,8 +58,8 @@ export default class FileTable extends Component {
           {
             itemId: "asd",
             fileName: "test",
-            fileSize: "1KB",
-            fileRemainingTime: "+10000s"
+            fileSize: 111111,
+            fileRemainingTime: 1583859517598
           }
         ]
         response = JSON.stringify(response);
@@ -81,7 +85,7 @@ export default class FileTable extends Component {
 
   render() {
     if (!this.state.isLoaded) {
-      return <div>Loading</div>
+      return <center><div>Loading</div></center>
     } else {
       return (
         <Container>
@@ -93,7 +97,7 @@ export default class FileTable extends Component {
                 <TableRow>
                   <TableCell style={{width: "60%"}}>文件名</TableCell>
                   <TableCell>大小</TableCell>
-                  <TableCell>剩余过期时间</TableCell>
+                  <TableCell>到期时间</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
