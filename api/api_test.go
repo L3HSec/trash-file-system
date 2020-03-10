@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"testing"
 	"time"
 
 	"github.com/L3HSec/trash-file-system/common"
-	"github.com/L3HSec/trash-file-system/server"
 )
 
 type mockStorageManager struct{}
@@ -38,9 +36,4 @@ func (p *mockStorageManager) ListFiles() ([]common.File, error) {
 		Comment:  "wdnmd",
 		Expire:   time.Now(),
 	}}, nil
-}
-
-func TestAPI(t *testing.T) {
-	storagetManager = &mockStorageManager{}
-	server.Run()
 }

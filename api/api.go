@@ -11,9 +11,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var storagetManager common.StorageManager
+type apiManager struct {
+	storageMan common.StorageManager
+}
 
-func handleUpload(w http.ResponseWriter, req *http.Request) {
+func (p *apiManager) handleUpload(w http.ResponseWriter, req *http.Request) {
 	req.ParseMultipartForm(32 << 20)
 	reader, handler, err := req.FormFile("upload")
 	if err != nil {
@@ -24,7 +26,7 @@ func handleUpload(w http.ResponseWriter, req *http.Request) {
 	fileName := handler.Filename
 	comment := req.FormValue("comment")
 
-	file, err := storagetManager.SaveFile(fileName, comment, reader)
+	file, err := p.storageMan.SaveFile(fileName, comment, reader)
 
 	if err != nil {
 		w.WriteHeader(500)
@@ -39,7 +41,7 @@ func handleUpload(w http.ResponseWriter, req *http.Request) {
 	w.Write(respBody)
 }
 
-func handleDownload(w http.ResponseWriter, r *http.Request) {
+func (p *apiManager) handleDownload(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	fileIDStr, found := vars["id"]
 	if !found {
@@ -53,18 +55,18 @@ func handleDownload(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		return
 	}
-	fileReader, err := storagetManager.GetFile(fileID)
-	defer fileReader.Close()
+	fileReader, err := p.storageMan.GetFile(fileID)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
+	defer fileReader.Close()
 	w.WriteHeader(200)
 	io.Copy(w, fileReader)
 }
 
-func handleList(w http.ResponseWriter, r *http.Request) {
-	files, err := storagetManager.ListFiles()
+func (p *apiManager) handleList(w http.ResponseWriter, r *http.Request) {
+	files, err := p.storageMan.ListFiles()
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -95,8 +97,11 @@ func handleList(w http.ResponseWriter, r *http.Request) {
 	w.Write(respBody)
 }
 
-func init() {
-	server.RegisterAPI("POST", "/file", handleUpload)
-	server.RegisterAPI("GET", "/file/{id:[0-9A-Fa-f]+}", handleDownload)
-	server.RegisterAPI("GET", "/file", handleList)
+func Run(storageMan common.StorageManager) {
+	man := apiManager{
+		storageMan: storageMan,
+	}
+	server.RegisterAPI("POST", "/file", man.handleUpload)
+	server.RegisterAPI("GET", "/file/{id:[0-9A-Fa-f]+}", man.handleDownload)
+	server.RegisterAPI("GET", "/file", man.handleList)
 }

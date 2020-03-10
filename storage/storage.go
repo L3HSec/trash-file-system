@@ -8,22 +8,20 @@ import (
 
 	"github.com/L3HSec/trash-file-system/common"
 	"github.com/L3HSec/trash-file-system/dbman"
-	fileman "github.com/L3HSec/trash-file-system/fileman"
+	"github.com/L3HSec/trash-file-system/fileman"
 )
 
-type DiskStorageManager struct {
+type diskStorageManager struct {
 	dbMan   common.DatabaseManager
 	fileMan common.FileManager
 }
-
-var Manager common.StorageManager
 
 func generateFileID() common.FileID {
 	id := rand.Int63()
 	return common.FileID(id)
 }
 
-func (p *DiskStorageManager) SaveFile(fileName string, comment string, reader io.Reader) (*common.File, error) {
+func (p *diskStorageManager) SaveFile(fileName string, comment string, reader io.Reader) (*common.File, error) {
 	file := common.File{
 		FileName: fileName,
 		ID:       generateFileID(),
@@ -50,7 +48,7 @@ func (p *DiskStorageManager) SaveFile(fileName string, comment string, reader io
 	return &file, nil
 }
 
-func (p *DiskStorageManager) GetFile(id common.FileID) (io.ReadCloser, error) {
+func (p *diskStorageManager) GetFile(id common.FileID) (io.ReadCloser, error) {
 	file, err := p.dbMan.QueryFile(id)
 
 	if err != nil {
@@ -68,12 +66,12 @@ func (p *DiskStorageManager) GetFile(id common.FileID) (io.ReadCloser, error) {
 	return reader, nil
 }
 
-func (p *DiskStorageManager) ListFiles() ([]common.File, error) {
+func (p *diskStorageManager) ListFiles() ([]common.File, error) {
 	return p.dbMan.ListFiles()
 }
 
-func init() {
-	Manager = &DiskStorageManager{
+func NewStorageManager(dbPath string, uploadDir string) common.StorageManager {
+	return &diskStorageManager{
 		dbMan:   dbman.NewManager(dbPath),
 		fileMan: fileman.NewManager(uploadDir),
 	}

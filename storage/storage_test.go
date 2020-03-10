@@ -8,14 +8,15 @@ import (
 )
 
 func TestStorage(t *testing.T) {
+	manager := NewStorageManager("a.db", "./uploadDir")
 	payload := "asdfsaljdfklasjdfklasjdkfl"
 	buffer := []byte(payload)
-	file, err := Manager.SaveFile("test", "fuck comment", bytes.NewReader(buffer))
+	file, err := manager.SaveFile("test", "fuck comment", bytes.NewReader(buffer))
 	if err != nil {
 		t.Fatal("fuck")
 	}
 
-	reader, err := Manager.GetFile(file.ID)
+	reader, err := manager.GetFile(file.ID)
 	if err != nil {
 		t.Fatal("fuck")
 	}
