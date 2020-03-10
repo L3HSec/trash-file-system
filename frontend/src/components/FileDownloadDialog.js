@@ -23,9 +23,8 @@ export default function DownloadDialog(props) {
   const classes = useStyles();
   const handleClose = () => {
     onClose();
-  }
+  };
   return (
-    // <ClickAwayListener onClickAway={handleClose}>
     <Dialog open={open} onClose={handleClose} >
       <DialogTitle id="simple-dialog-title" className={classes.dialog}>{fileInfo.fileName}</DialogTitle>
       <Grid container direction="column">
@@ -42,6 +41,5 @@ export default function DownloadDialog(props) {
 
     </Dialog>
 
-    // </ClickAwayListener>
   );
 }

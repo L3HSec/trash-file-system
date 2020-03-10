@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import {dateFormat, getfilesize} from './DataFormat';
+import { dateFormat, getfilesize } from './DataFormat';
 
-import {Container, Paper, Box } from '@material-ui/core';
-import {Table, TableHead, TableRow, TableCell,TableBody,  TableContainer } from '@material-ui/core';
+import { Container, Paper, Box } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer } from '@material-ui/core';
 
 import DownloadDialog from './FileDownloadDialog';
 
-function FileItem (props){
+function FileItem(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickFile = () => {
@@ -17,19 +17,21 @@ function FileItem (props){
 
   const handleClose = () => {
     setOpen(false);
-    console.log("aaaa");
   }
 
-  var date = dateFormat("YYYY-mm-dd HH:MM",new Date(props.fileInfo.fileRemainingTime));
+  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.fileRemainingTime));
   var fileSize = getfilesize(props.fileInfo.fileSize);
-  
+
   return (
-    <TableRow key={props.fileInfo.itemId} onClick={()=>{handleClickFile()}}>
-      <TableCell>{props.fileInfo.fileName}</TableCell>
-      <TableCell>{fileSize}</TableCell>
-      <TableCell>{date}</TableCell>
+    <React.Fragment>
       <DownloadDialog open={open} onClose={handleClose} fileInfo={props.fileInfo} />
-    </TableRow>
+      <TableRow key={props.fileInfo.itemId} onClick={() => { handleClickFile() }}>
+        <TableCell style={{ width: "60%" }}>{props.fileInfo.fileName}</TableCell>
+        <TableCell>{fileSize}</TableCell>
+        <TableCell>{date}</TableCell>
+      </TableRow>
+
+    </React.Fragment>
   );
 }
 
@@ -95,7 +97,7 @@ export default class FileTable extends Component {
             <Table className="filetable">
               <TableHead>
                 <TableRow>
-                  <TableCell style={{width: "60%"}}>文件名</TableCell>
+                  <TableCell style={{ width: "60%" }}>文件名</TableCell>
                   <TableCell>大小</TableCell>
                   <TableCell>到期时间</TableCell>
                 </TableRow>
