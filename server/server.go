@@ -16,7 +16,7 @@ func RegisterAPI(method string, path string, handle http.HandlerFunc) {
 
 //Run launch the http server
 func Run() {
-	//router.ServeFiles("/static/*filepath", http.Dir("../static"))
+	//TODO fix relative path
 	router.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("../static"))))
 	http.ListenAndServe(":8080", router)
 }

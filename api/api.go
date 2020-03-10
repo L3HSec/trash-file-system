@@ -22,7 +22,6 @@ func handleUpload(w http.ResponseWriter, req *http.Request) {
 	}
 	defer reader.Close()
 	fileName := handler.Filename
-	//comment := p.ByName("comment")
 	comment := req.FormValue("comment")
 
 	file, err := storagetManager.SaveFile(fileName, comment, reader)
@@ -41,8 +40,6 @@ func handleUpload(w http.ResponseWriter, req *http.Request) {
 }
 
 func handleDownload(w http.ResponseWriter, r *http.Request) {
-	//r.ParseForm()
-	//fileIDStr := r.FormValue("fileID")
 	vars := mux.Vars(r)
 	fileIDStr, found := vars["id"]
 	if !found {
@@ -100,6 +97,6 @@ func handleList(w http.ResponseWriter, r *http.Request) {
 
 func init() {
 	server.RegisterAPI("POST", "/file", handleUpload)
-	server.RegisterAPI("GET", "/file/{id:[0-9A-F]+}", handleDownload)
+	server.RegisterAPI("GET", "/file/{id:[0-9A-Fa-f]+}", handleDownload)
 	server.RegisterAPI("GET", "/file", handleList)
 }

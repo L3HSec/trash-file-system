@@ -1,5 +1,6 @@
 package storage
 
 const (
-	storageDir = "upload_files/"
+	uploadDir = "upload_files/"
+	dbPath    = "tfs.db"
 )

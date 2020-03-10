@@ -13,7 +13,7 @@ type fileUploadRequest struct {
 
 type fileInfo struct {
 	FileName string
-	FileSize int
+	FileSize int64
 	Comment  string
 	FileID   string
 	Expire   int64
