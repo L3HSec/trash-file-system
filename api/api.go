@@ -17,7 +17,7 @@ type apiManager struct {
 
 func (p *apiManager) handleUpload(w http.ResponseWriter, req *http.Request) {
 	req.ParseMultipartForm(32 << 20)
-	reader, handler, err := req.FormFile("upload")
+	reader, handler, err := req.FormFile("file")
 	if err != nil {
 		w.WriteHeader(500)
 		return
