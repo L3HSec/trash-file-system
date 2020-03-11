@@ -26,11 +26,11 @@ export default function DownloadDialog(props) {
   };
   return (
     <Dialog open={open} onClose={handleClose} >
-      <DialogTitle id="simple-dialog-title" className={classes.dialog}>{fileInfo.fileName}</DialogTitle>
+      <DialogTitle id="simple-dialog-title" className={classes.dialog}>{fileInfo.FileName}</DialogTitle>
       <Grid container direction="column">
         <Grid item xs className={classes.grid}>
           <Grid item xs={12}>
-            <TextField multiline variant="outlined" rows="10" className={classes.comment} value={fileInfo.comment}></TextField>
+            <TextField multiline variant="outlined" rows="10" className={classes.comment} value={fileInfo.Comment}></TextField>
           </Grid>
           <Grid item xs={12}>
             <Button variant="outlined" className={classes.download} >下载</Button>

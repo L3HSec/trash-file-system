@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { dateFormat, getfilesize } from './DataFormat';
+import { withSnackbar } from 'notistack';
 
 import { Container, Paper, Box } from '@material-ui/core';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer } from '@material-ui/core';
@@ -19,14 +20,14 @@ function FileItem(props) {
     setOpen(false);
   }
 
-  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.fileRemainingTime));
-  var fileSize = getfilesize(props.fileInfo.fileSize);
+  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.Expire));
+  var fileSize = getfilesize(props.fileInfo.FileSize);
 
   return (
     <React.Fragment>
-      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.fileInfo} />
-      <TableRow key={props.fileInfo.itemId} onClick={() => { handleClickFile() }}>
-        <TableCell style={{ width: "60%" }}>{props.fileInfo.fileName}</TableCell>
+      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.FileInfo} />
+      <TableRow key={props.fileInfo.FileID} onClick={() => { handleClickFile() }}>
+        <TableCell style={{ width: "60%" }}>{props.fileInfo.FileName}</TableCell>
         <TableCell>{fileSize}</TableCell>
         <TableCell>{date}</TableCell>
       </TableRow>
@@ -35,7 +36,7 @@ function FileItem(props) {
   );
 }
 
-export default class FileTable extends Component {
+class FileTable extends Component {
   // filelist = [];
   constructor(props) {
     super(props);
@@ -46,7 +47,8 @@ export default class FileTable extends Component {
   };
 
   static propTypes = {
-    loadedCallback: PropTypes.func
+    loadedCallback: PropTypes.func,
+    enqueueSnackbar: PropTypes.func
   }
 
   componentDidMount() {
@@ -56,23 +58,25 @@ export default class FileTable extends Component {
     const _this = this;
     axios.get('/file')
       .then((response) => {
-        response = [
-          {
-            itemId: "asd",
-            fileName: "test",
-            fileSize: 111111,
-            fileRemainingTime: 1583859517598
-          }
-        ]
-        response = JSON.stringify(response);
+        // response = [
+        //   {
+        //     itemId: "asd",
+        //     fileName: "test",
+        //     fileSize: 111111,
+        //     fileRemainingTime: 1583859517598
+        //   }
+        // ]
+        // response = JSON.stringify(response);
         _this.setState({
           filelist: JSON.parse(response),
           isLoaded: true
         });
         _this.renderTableData();
+        this.props.enqueueSnackbar("获取文件列表成功",{variant: "success"});
       })
       .catch((error) => {
         console.log(error);
+        this.props.enqueueSnackbar("获取文件列表失败",{variant: "error"});
       });
   };
 
@@ -115,4 +119,6 @@ export default class FileTable extends Component {
 
   }
 
-}
+};
+
+export default withSnackbar(FileTable);

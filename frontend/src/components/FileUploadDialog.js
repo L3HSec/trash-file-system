@@ -47,7 +47,7 @@ export default function UploadDialog(props) {
     }
     var param = new FormData();
     param.append('file',fileInfo.file);
-    param.append('comment', fileInfo.comment);
+    param.append('Comment', fileInfo.comment);
     var config = {
       headers: {'Content-Type': 'multipart/form-data'}
     }
