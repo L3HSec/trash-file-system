@@ -56,15 +56,15 @@ export default class FileTable extends Component {
     const _this = this;
     axios.get('/file')
       .then((response) => {
-        response = [
-          {
-            itemId: "asd",
-            fileName: "test",
-            fileSize: 111111,
-            fileRemainingTime: 1583859517598
-          }
-        ]
-        response = JSON.stringify(response);
+        // response = [
+        //   {
+        //     itemId: "asd",
+        //     fileName: "test",
+        //     fileSize: 111111,
+        //     fileRemainingTime: 1583859517598
+        //   }
+        // ]
+        // response = JSON.stringify(response);
         _this.setState({
           filelist: JSON.parse(response),
           isLoaded: true
