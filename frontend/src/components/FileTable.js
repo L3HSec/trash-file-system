@@ -19,14 +19,14 @@ function FileItem(props) {
     setOpen(false);
   }
 
-  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.fileRemainingTime));
-  var fileSize = getfilesize(props.fileInfo.fileSize);
+  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.Expire));
+  var fileSize = getfilesize(props.fileInfo.FileSize);
 
   return (
     <React.Fragment>
-      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.fileInfo} />
-      <TableRow key={props.fileInfo.itemId} onClick={() => { handleClickFile() }}>
-        <TableCell style={{ width: "60%" }}>{props.fileInfo.fileName}</TableCell>
+      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.FileInfo} />
+      <TableRow key={props.fileInfo.FileID} onClick={() => { handleClickFile() }}>
+        <TableCell style={{ width: "60%" }}>{props.fileInfo.FileName}</TableCell>
         <TableCell>{fileSize}</TableCell>
         <TableCell>{date}</TableCell>
       </TableRow>
