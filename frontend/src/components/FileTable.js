@@ -20,12 +20,12 @@ function FileItem(props) {
     setOpen(false);
   }
 
-  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.Expire));
+  var date = dateFormat("YYYY-mm-dd HH:MM", new Date(props.fileInfo.Expire*1000));
   var fileSize = getfilesize(props.fileInfo.FileSize);
 
   return (
     <React.Fragment>
-      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.FileInfo} />
+      <DownloadDialog open={open} onClose={handleClose} fileInfo={props.fileInfo} />
       <TableRow key={props.fileInfo.FileID} onClick={() => { handleClickFile() }}>
         <TableCell style={{ width: "60%" }}>{props.fileInfo.FileName}</TableCell>
         <TableCell>{fileSize}</TableCell>
@@ -68,7 +68,7 @@ class FileTable extends Component {
         // ]
         // response = JSON.stringify(response);
         _this.setState({
-          filelist: JSON.parse(response),
+          filelist: response.data,
           isLoaded: true
         });
         _this.renderTableData();
@@ -106,7 +106,7 @@ class FileTable extends Component {
                   <TableCell>到期时间</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody stripedRows>
                 {this.renderTableData()}
               </TableBody>
             </Table>

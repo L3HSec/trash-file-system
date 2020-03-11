@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dialog, TextField, Grid, DialogTitle, Button, makeStyles } from '@material-ui/core';
+import {useSnackbar} from 'notistack';
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
@@ -28,17 +29,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function UploadDialog(props) {
   const { open, onClose } = props;
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
+
+
   var fileInfo = {}
   const handleClose = () => {
     onClose();
   }
+
   const selectFile = (e) => {
     fileInfo.file = e.target.files[0];
   }
+
   const updateComment = (e) => {
     fileInfo.comment=e.target.value;
   }
+
   const doUpload = () => {
     console.log(fileInfo);
     if (!fileInfo.file) {
@@ -47,7 +54,7 @@ export default function UploadDialog(props) {
     }
     var param = new FormData();
     param.append('file',fileInfo.file);
-    param.append('Comment', fileInfo.comment);
+    param.append('comment', fileInfo.comment);
     var config = {
       headers: {'Content-Type': 'multipart/form-data'}
     }
@@ -55,8 +62,16 @@ export default function UploadDialog(props) {
     .then(res => {
       //todo
       console.log(res);
+      if (res.status === 201) {
+        enqueueSnackbar("上传成功",{variant: "success"});
+        onClose();
+      }
+    })
+    .catch(error => {
+      enqueueSnackbar("上传失败",{variant: "success"});
     });
   }
+
   return (
     <Dialog open={open} onClose={handleClose} >
       <DialogTitle className={classes.dialog}>上传文件</DialogTitle>

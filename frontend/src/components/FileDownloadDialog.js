@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     margin: "4vh"
   }
 }));
+
 export default function DownloadDialog(props) {
   const { open, fileInfo, onClose } = props;
   const classes = useStyles();
@@ -33,7 +34,9 @@ export default function DownloadDialog(props) {
             <TextField multiline variant="outlined" rows="10" className={classes.comment} value={fileInfo.Comment}></TextField>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="outlined" className={classes.download} >下载</Button>
+            <a href={"/file/"+fileInfo.FileID}>
+              <Button variant="outlined" className={classes.download} >下载</Button>
+            </a>
           </Grid>
 
         </Grid>
