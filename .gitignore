@@ -19,3 +19,4 @@
 *.db
 upload_files/
 static/
+release/*
