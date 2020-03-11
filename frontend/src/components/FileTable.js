@@ -26,7 +26,7 @@ function FileItem(props) {
   return (
     <React.Fragment>
       <DownloadDialog open={open} onClose={handleClose} fileInfo={props.fileInfo} />
-      <TableRow key={props.fileInfo.FileID} onClick={() => { handleClickFile() }}>
+      <TableRow hover key={props.fileInfo.FileID} onClick={() => { handleClickFile() }}>
         <TableCell style={{ width: "60%" }}>{props.fileInfo.FileName}</TableCell>
         <TableCell>{fileSize}</TableCell>
         <TableCell>{date}</TableCell>
