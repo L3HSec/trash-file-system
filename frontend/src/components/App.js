@@ -15,9 +15,9 @@ class App extends Component {
   render() {
     return (
         <ThemeProvider theme={theme}>
-          <HeaderBar />
+          <HeaderBar refreshFileList={() => this.content.refreshFileList()} />
 
-          <FileTable loadedCallback={this.refreshFileList} />
+          <FileTable loadedCallback={this.refreshFileList} ref={instance=>{this.content=instance}} />
         </ThemeProvider>
     );
   }

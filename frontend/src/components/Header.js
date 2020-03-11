@@ -8,16 +8,18 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1
   }
-}))
+}));
 
-export default function HeaderBar() {
+export default function HeaderBar(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
   const showUploadDialog = () => {
     setOpen(true);
   }
   const closeDialog = () => {
     setOpen(false);
+    props.refreshFileList();
   }
 
   return (
