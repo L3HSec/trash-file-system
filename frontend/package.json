@@ -35,7 +35,11 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost/",
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8080"
+    }
+  },
   "devDependencies": {
     "react-time-format": "0.0.5"
   }

@@ -14,11 +14,11 @@ class App extends Component {
 
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <HeaderBar />
+        <ThemeProvider theme={theme}>
+          <HeaderBar />
 
-        <FileTable loadedCallback={this.refreshFileList} />
-      </ThemeProvider>
+          <FileTable loadedCallback={this.refreshFileList} />
+        </ThemeProvider>
     );
   }
 

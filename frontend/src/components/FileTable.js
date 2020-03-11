@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { dateFormat, getfilesize } from './DataFormat';
+import { withSnackbar } from 'notistack';
 
 import { Container, Paper, Box } from '@material-ui/core';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer } from '@material-ui/core';
@@ -35,7 +36,7 @@ function FileItem(props) {
   );
 }
 
-export default class FileTable extends Component {
+class FileTable extends Component {
   // filelist = [];
   constructor(props) {
     super(props);
@@ -46,7 +47,8 @@ export default class FileTable extends Component {
   };
 
   static propTypes = {
-    loadedCallback: PropTypes.func
+    loadedCallback: PropTypes.func,
+    enqueueSnackbar: PropTypes.func
   }
 
   componentDidMount() {
@@ -70,9 +72,11 @@ export default class FileTable extends Component {
           isLoaded: true
         });
         _this.renderTableData();
+        this.props.enqueueSnackbar("获取文件列表成功",{variant: "success"});
       })
       .catch((error) => {
         console.log(error);
+        this.props.enqueueSnackbar("获取文件列表失败",{variant: "error"});
       });
   };
 
@@ -115,4 +119,6 @@ export default class FileTable extends Component {
 
   }
 
-}
+};
+
+export default withSnackbar(FileTable);
