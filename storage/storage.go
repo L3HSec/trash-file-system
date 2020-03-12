@@ -28,41 +28,35 @@ func (p *diskStorageManager) SaveFile(fileName string, comment string, reader io
 		Comment:  comment,
 		Expire:   time.Now().Add(time.Minute * 15),
 	}
-
 	storedName := fmt.Sprintf("%X", file.ID)
-
 	fileSize, err := p.fileMan.SaveFile(storedName, reader)
-
 	if err != nil {
 		return nil, common.NewError("failed to save the file").Base(err)
 	}
 
 	file.FileSize = fileSize
-
 	err = p.dbMan.AddFile(&file)
-
 	if err != nil {
 		return nil, common.NewError("failed to add file to db").Base(err)
 	}
+
+	fmt.Printf("Saving file %s id %X", file.FileName, file.ID)
 
 	return &file, nil
 }
 
 func (p *diskStorageManager) GetFile(id common.FileID) (*common.File, io.ReadCloser, error) {
 	file, err := p.dbMan.QueryFile(id)
-
 	if err != nil {
 		return nil, nil, common.NewError("no such file id in db").Base(err)
 	}
 
 	storedName := fmt.Sprintf("%X", file.ID)
-
 	reader, err := p.fileMan.GetFile(storedName)
-
 	if err != nil {
 		return nil, nil, common.NewError("failed to open file").Base(err)
 	}
-
+	fmt.Printf("Getting file %s id %X", file.FileName, file.ID)
 	return file, reader, nil
 }
 
@@ -74,14 +68,12 @@ func (p *diskStorageManager) AutoClean() {
 	for {
 		files, err := p.dbMan.ListFiles()
 		if err != nil {
-			panic("cannot list")
+			panic("cannot list all files")
 		}
 		for _, f := range files {
 			if time.Now().After(f.Expire) {
-				err := p.dbMan.DeleteFile(f.ID)
-				common.Must(err)
-				err = p.fileMan.DeleteFile(fmt.Sprintf("%X", f.ID))
-				common.Must(err)
+				p.dbMan.DeleteFile(f.ID)
+				p.fileMan.DeleteFile(fmt.Sprintf("%X", f.ID))
 				fmt.Println("Expired file deleted: " + f.FileName)
 			}
 		}

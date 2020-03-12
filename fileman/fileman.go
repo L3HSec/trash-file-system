@@ -12,7 +12,7 @@ type fileManager struct {
 }
 
 func (p *fileManager) SaveFile(fileName string, reader io.Reader) (int64, error) {
-	file, err := os.OpenFile(p.path+fileName, os.O_WRONLY|os.O_CREATE, 0666)
+	file, err := os.OpenFile(p.path+"/"+fileName, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return 0, err
 	}
@@ -34,6 +34,7 @@ func (p *fileManager) DeleteFile(fileName string) error {
 
 //NewManager creates new file manager
 func NewManager(path string) common.FileManager {
+	os.Mkdir(path, 0666)
 	return &fileManager{
 		path: path,
 	}

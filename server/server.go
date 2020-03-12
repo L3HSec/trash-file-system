@@ -17,8 +17,12 @@ func RegisterAPI(method string, path string, handle http.HandlerFunc) {
 
 //Run launch the http server
 func Run(addr string) {
+	fmt.Println("Server listening at " + addr)
 	router.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("static"))))
-	http.ListenAndServe(addr, router)
+	err := http.ListenAndServe(addr, router)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func init() {

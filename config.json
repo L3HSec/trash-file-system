@@ -1,0 +1,5 @@
+{
+    "address": ":8080",
+    "files_dir": "upload_files/",
+    "database": "tfs.db"
+}
