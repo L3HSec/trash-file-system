@@ -29,7 +29,7 @@ export default function HeaderBar(props) {
           L3H Cloud
         </Typography>
         <Button color="inherit" onClick={showUploadDialog}>
-          上传文件
+          Upload
         </Button>
         <UploadDialog open={open} onClose={closeDialog} />
       </Toolbar>

@@ -63,7 +63,7 @@ export default function UploadDialog(props) {
 
   const doUpload = () => {
     console.log(fileinfo);
-    if (fileinfo == {}) {
+    if (fileinfo === {}) {
       alert("Please select a file");
       return;
     }
@@ -83,7 +83,7 @@ export default function UploadDialog(props) {
       }
     })
     .catch(error => {
-      enqueueSnackbar("Upload failed",{variant: "success"});
+      enqueueSnackbar("Upload failed",{variant: "error"});
       console.log(error);
     });
     setName('');

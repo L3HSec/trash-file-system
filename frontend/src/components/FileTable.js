@@ -42,7 +42,8 @@ class FileTable extends Component {
     super(props);
     this.state = {
       filelist: [],
-      isLoaded: false
+      isLoaded: false,
+      timer: null
     };
   };
 
@@ -53,6 +54,9 @@ class FileTable extends Component {
 
   componentDidMount() {
     this.refreshFileList();
+    this.state.timer=setInterval(()=>{
+      this.refreshFileList();
+    },1000*30);
   }
   refreshFileList(props) {
     const _this = this;
