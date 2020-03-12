@@ -14,7 +14,7 @@ func main() {
 	var storageMan common.StorageManager
 	config, err := conf.GetConfig("config.json")
 	if err != nil {
-		fmt.Println("Failed to load config")
+		fmt.Println("Failed to load config.json")
 		return
 	}
 	fmt.Println("Config: \n", config)

@@ -17,6 +17,6 @@
 
 .vscode/*
 *.db
-upload_files/
+static/*
 static/
 release/*

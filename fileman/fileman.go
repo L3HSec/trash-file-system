@@ -34,7 +34,7 @@ func (p *fileManager) DeleteFile(fileName string) error {
 
 //NewManager creates new file manager
 func NewManager(path string) common.FileManager {
-	os.Mkdir(path, 0666)
+	os.Mkdir(path, 0766)
 	return &fileManager{
 		path: path,
 	}
