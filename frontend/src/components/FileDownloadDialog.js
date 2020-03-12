@@ -35,7 +35,7 @@ export default function DownloadDialog(props) {
           </Grid>
           <Grid item xs={12}>
             <a href={"/file/"+fileInfo.FileID}>
-              <Button variant="outlined" className={classes.download} >下载</Button>
+              <Button variant="outlined" className={classes.download} >Download</Button>
             </a>
           </Grid>
 

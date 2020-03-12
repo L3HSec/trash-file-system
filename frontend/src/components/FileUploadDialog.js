@@ -64,7 +64,7 @@ export default function UploadDialog(props) {
   const doUpload = () => {
     console.log(fileinfo);
     if (fileinfo == {}) {
-      alert("请选择文件");
+      alert("Please select a file");
       return;
     }
     var param = new FormData();
@@ -78,19 +78,20 @@ export default function UploadDialog(props) {
       //todo
       console.log(res);
       if (res.status === 201) {
-        enqueueSnackbar("上传成功",{variant: "success"});
+        enqueueSnackbar("Upload successful",{variant: "success"});
         onClose();
       }
     })
     .catch(error => {
-      enqueueSnackbar("上传失败",{variant: "success"});
+      enqueueSnackbar("Upload failed",{variant: "success"});
+      console.log(error);
     });
     setName('');
   }
 
   return (
     <Dialog open={open} onClose={handleClose} className={classes.dialog} >
-      <DialogTitle className={classes.dialog_banner}>上传文件</DialogTitle>
+      <DialogTitle className={classes.dialog_banner}>Upload file</DialogTitle>
       <Grid container direction="column">
         <Grid item xs={12} className={classes.grid}>
           <TextField multiline variant="outlined" rows="10" className={classes.comment} onChange={updateComment}></TextField>
@@ -104,9 +105,9 @@ export default function UploadDialog(props) {
             onChange={selectFile}
           />
           <label htmlFor="text-button-file">
-            <Button component="span" variant="contained" color="primary" className={classes.selectFile}>选择文件</Button>
+            <Button component="span" variant="contained" color="primary" className={classes.selectFile}>Select file</Button>
           </label>
-          <Button variant="contained" color="secondary" className={classes.upload} onClick={doUpload}>上传</Button>
+          <Button variant="contained" color="secondary" className={classes.upload} onClick={doUpload}>Upload</Button>
         </Grid>
         <Grid item xs={12} className={classes.filename}>
           <Box className={classes.filename}>{name}</Box>

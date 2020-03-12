@@ -72,11 +72,11 @@ class FileTable extends Component {
           isLoaded: true
         });
         _this.renderTableData();
-        this.props.enqueueSnackbar("获取文件列表成功",{variant: "success"});
+        this.props.enqueueSnackbar("File list refresh successful",{variant: "success"});
       })
       .catch((error) => {
         console.log(error);
-        this.props.enqueueSnackbar("获取文件列表失败",{variant: "error"});
+        this.props.enqueueSnackbar("Failed to fetch file list",{variant: "error"});
       });
   };
 
@@ -101,9 +101,9 @@ class FileTable extends Component {
             <Table className="filetable">
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "60%" }}>文件名</TableCell>
-                  <TableCell>大小</TableCell>
-                  <TableCell>到期时间</TableCell>
+                  <TableCell style={{ width: "60%" }}>Filename</TableCell>
+                  <TableCell>Size</TableCell>
+                  <TableCell>Time to death</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody stripedRows>
