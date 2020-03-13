@@ -48,6 +48,7 @@ export default function UploadDialog(props) {
   const [filecomment, setFilecomment] = useState('');
 
   const handleClose = () => {
+    setFilecomment('');
     onClose();
   }
 
@@ -79,6 +80,7 @@ export default function UploadDialog(props) {
       console.log(res);
       if (res.status === 201) {
         enqueueSnackbar("Upload successful",{variant: "success"});
+        setFilecomment('');
         onClose();
       }
     })
